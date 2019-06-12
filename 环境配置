@@ -67,6 +67,8 @@ systemctl start etcd
 
 ETCDCTL_API=3 /usr/local/src/etcd-v3.3.12-linux-amd64/etcdctl --endpoints=localhost:2379 member list
 
+## 更多参数配置在这
+https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/configuration.md
 
-/usr/bin/kube-apiserver --logtostderr=true --v=0 --etcd-servers=http://192.168.2.30:2379,http://192.168.2.31:2379 --insecure-bind-address=127.0.0.1 --allow-privileged=false --service-cluster-ip-range=172.16.0.0/24 --admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota ?service-node-port-range=1-65535 --insecure-bind-address=0.0.0.0
-
+https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/clustering.md
+    curl https://discovery.etcd.io/new?size=3
