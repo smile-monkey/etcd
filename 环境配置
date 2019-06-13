@@ -72,3 +72,25 @@ https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/configuration
 
 https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/clustering.md
     curl https://discovery.etcd.io/new?size=3
+    
+## lease 与 key 关联
+ETCDCTL_API=3 etcdctl --endpoints=http://192.168.2.30:2379 lease grant 1000
+   lease 3b406b4adf0c989a granted with TTL(1000s)
+ETCDCTL_API=3 etcdctl --endpoints=http://192.168.2.30:2379 lease timetolive 3b406b4adf0c989a
+	lease 3b406b4adf0c989a granted with TTL(1000s), remaining(704s)
+	
+ETCDCTL_API=3 etcdctl --endpoints=http://192.168.2.30:2379 put k1 v1 --lease 3b406b4adf0c989a
+ETCDCTL_API=3 etcdctl --endpoints=http://192.168.2.30:2379 lease timetolive 3b406b4adf0c989a --keys
+
+# 删除lease，并删除所有关联的key 
+ETCDCTL_API=3 etcdctl --endpoints=http://192.168.2.30:2379 lease revoke 3b406b4adf0c989a
+
+# 周期性地刷新lease时间，保证它不会过期
+ETCDCTL_API=3 etcdctl --endpoints=http://192.168.2.30:2379 lease grant 10
+	lease 3b406b4adf0cb0f9 granted with TTL(10s)
+ETCDCTL_API=3 etcdctl --endpoints=http://192.168.2.30:2379 lease keep-alive 3b406b4adf0cb0f9
+	lease 3b406b4adf0cb0f9 keepalived with TTL(10)  
+	lease 3b406b4adf0cb0f9 keepalived with TTL(10)
+	lease 3b406b4adf0cb0f9 keepalived with TTL(10)
+# 锁
+ETCDCTL_API=3 etcdctl --endpoints=http://192.168.2.30:2379 lock mutex1 
