@@ -27,6 +27,7 @@ ETCDCTL_API=3 /usr/local/src/etcd-v3.3.12-linux-amd64/etcdctl --endpoints=localh
 # vi /etc/profile 
 # export ETCDCTL_API=3
 # source /etc/profile
+sed -i '$a\export ETCDCTL_API=3' /etc/profile
 
 cp -r /tmp/etcd-download /usr/local/src/etcd-v3.3.12-linux-amd64
 
